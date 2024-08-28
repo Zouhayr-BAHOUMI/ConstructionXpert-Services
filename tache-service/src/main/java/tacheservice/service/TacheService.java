@@ -20,7 +20,7 @@ public class TacheService {
     public void addTache(Tache tache, int idProjet){
 
         try {
-            restTemplate.getForObject("http://localhost:8081/projets/" + idProjet, Object.class);
+            restTemplate.getForObject("http://localhost:8082/projets/idprojet?idprojet=" + idProjet, Object.class);
         } catch (Exception e) {
             throw new IllegalArgumentException("Projet non trouvé : " + idProjet);
         }
