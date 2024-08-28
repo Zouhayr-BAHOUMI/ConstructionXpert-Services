@@ -1,4 +1,7 @@
 package ressourceservice.repository;
 
-public interface RessourceRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import ressourceservice.model.Ressource;
+
+public interface RessourceRepository extends JpaRepository<Ressource, Long> {
 }
