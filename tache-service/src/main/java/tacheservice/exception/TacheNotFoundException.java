@@ -1,4 +1,8 @@
 package tacheservice.exception;
 
-public class TacheNotFoundException {
+public class TacheNotFoundException extends RuntimeException {
+
+    public TacheNotFoundException() {
+        super("tache not found !");
+    }
 }
