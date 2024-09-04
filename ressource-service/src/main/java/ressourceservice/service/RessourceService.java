@@ -4,6 +4,7 @@ package ressourceservice.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ressourceservice.client.TacheClient;
 import ressourceservice.exception.RessourceNotFoundException;
 import ressourceservice.model.Ressource;
 import ressourceservice.repository.RessourceRepository;
@@ -19,10 +20,13 @@ public class RessourceService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private TacheClient tacheClient;
+
     public void addRessource(Ressource ressource, int idTache){
 
         try {
-            restTemplate.getForObject("http://localhost:8083/taches/idTache?idTache=" + idTache, Object.class);
+            tacheClient.getTacheById(idTache);
         } catch (Exception e) {
             throw new IllegalArgumentException("Tache non trouvé : " + idTache);
         }
