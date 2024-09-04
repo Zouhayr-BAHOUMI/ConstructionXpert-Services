@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: projet-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/projets/**
+
+        - id: tache-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/taches/**
+
+        - id: ressource-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/ressources/**
+
+        - id: user-management
+          uri: http://localhost:8085
+          predicates:
+            - Path=/auth/**
+
+    discovery:
+      client:
+        serviceUrl:
+          defaultZone: http://localhost:8761/eureka/
+
+server:
+  port: 8020
