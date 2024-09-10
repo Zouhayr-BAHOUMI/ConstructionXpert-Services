@@ -3,13 +3,11 @@ package usermanagement.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import usermanagement.auth.AuthenticationRequest;
 import usermanagement.auth.AuthenticationResponse;
 import usermanagement.auth.RegisterRequest;
+import usermanagement.config.JwtService;
 import usermanagement.service.AuthenticationService;
 
 @RestController
@@ -18,6 +16,8 @@ import usermanagement.service.AuthenticationService;
 public class UserController {
 
     private final AuthenticationService authenticationService;
+
+    private final JwtService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register
@@ -35,5 +35,20 @@ public class UserController {
     public ResponseEntity<AuthenticationResponse> login
             (@RequestBody AuthenticationRequest request){
         return ResponseEntity.ok(authenticationService.login(request));
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<String> validateToken(@RequestParam String token) {
+        try {
+            String username = jwtService.extractUsername(token);
+
+            if (jwtService.validateToken(token)) {
+                return ResponseEntity.ok("Token is valid for user: " + username);
+            } else {
+                return ResponseEntity.badRequest().body("Invalid token");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid token: " + e.getMessage());
+        }
     }
 }
