@@ -14,6 +14,8 @@ import usermanagement.enums.Role;
 import usermanagement.model.User;
 import usermanagement.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -60,5 +62,9 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
+    }
+
+    public List<User> getUsersByRole(Role role) {
+        return userRepository.findByRole(role);
     }
 }
