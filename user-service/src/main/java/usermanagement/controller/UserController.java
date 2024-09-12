@@ -8,7 +8,11 @@ import usermanagement.auth.AuthenticationRequest;
 import usermanagement.auth.AuthenticationResponse;
 import usermanagement.auth.RegisterRequest;
 import usermanagement.config.JwtService;
+import usermanagement.enums.Role;
+import usermanagement.model.User;
 import usermanagement.service.AuthenticationService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -50,5 +54,11 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Invalid token: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/userRole")
+    public ResponseEntity<List<User>> getUsersByRole(@RequestParam Role role) {
+        List<User> users = authenticationService.getUsersByRole(role);
+        return ResponseEntity.ok(users);
     }
 }
